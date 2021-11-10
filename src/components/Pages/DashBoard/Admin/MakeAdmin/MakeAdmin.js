@@ -1,17 +1,35 @@
-import { Paper, TextField, Typography } from "@mui/material";
+import { Alert, Paper, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import axios from "axios";
 import React, { useState } from "react";
 import PrimaryButton from "../../../../StyledComponents/PrimaryButton/PrimaryButton";
 
 const MakeAdmin = () => {
   const [adminEmail, setAdminEmail] = useState("");
+  const [success, setSuccess] = useState(false);
   const handleinputBlur = (e) => {
     setAdminEmail(e.target.value);
     console.log(e.target.value);
   };
   const makeAdminHandler = (e) => {
     e.preventDefault();
-    console.log(adminEmail);
+    axios
+      .put(
+        "http://localhost:5000/makeadmin",
+        { email: adminEmail },
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("idToken")}`,
+          },
+        }
+      )
+      .then((result) => {
+        if (result.data.acknowledged) {
+          setSuccess(true);
+        } else {
+          setSuccess(false);
+        }
+      });
   };
   return (
     <Box
@@ -36,6 +54,9 @@ const MakeAdmin = () => {
           <PrimaryButton sx={{ my: 2 }} type="submit">
             Make Admin
           </PrimaryButton>
+          {success && (
+            <Alert severity="success">Admin Added Successfully</Alert>
+          )}
         </form>
       </Paper>
     </Box>

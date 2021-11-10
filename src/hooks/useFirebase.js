@@ -16,6 +16,7 @@ const useFirebase = () => {
   const [user, setUser] = useState(null);
   const [authError, setAuthError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [admin, setAdmin] = useState(false);
   const auth = getAuth();
   const registerUser = (email, password, name, history, url) => {
     setLoading(true);
@@ -82,6 +83,18 @@ const useFirebase = () => {
     });
     return () => unsubscribe;
   });
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/checkadmin/", {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("idToken")}`,
+        },
+      })
+      .then((result) => {
+        setAdmin(result.data.admin);
+        console.log(admin);
+      });
+  }, [user]);
   return { registerUser, LogOut, LoginUser, user, authError, loading };
 };
 
