@@ -1,10 +1,12 @@
+import { Box } from '@mui/system';
 import React from 'react';
+import Navbar from '../../../Shared/Navbar/Navbar';
 
 const Header = () => {
     return (
-        <div>
-            
-        </div>
+       <Box>
+           <Navbar/>
+       </Box>
     );
 };
 
