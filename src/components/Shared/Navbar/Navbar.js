@@ -9,10 +9,13 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Container } from "@mui/material";
 import { NavLink } from "react-router-dom";
+import PrimaryButton from "../../StyledComponents/PrimaryButton/PrimaryButton";
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const { user, LogOut } = useAuth();
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -57,13 +60,22 @@ const Navbar = () => {
         <NavLink to="/">Explore</NavLink>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <NavLink to="/">Login</NavLink>
+        {user ? (
+          <PrimaryButton onClick={LogOut}>Logout</PrimaryButton>
+        ) : (
+          <NavLink to="/login">
+            <PrimaryButton>Login</PrimaryButton>
+          </NavLink>
+        )}
       </MenuItem>
     </Menu>
   );
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ background: "none", boxShadow: "none" }}>
+      <AppBar
+        position="static"
+        sx={{ background: "none", boxShadow: "none", alignItems: "center" }}
+      >
         <Container>
           <Toolbar>
             <Typography
@@ -75,10 +87,34 @@ const Navbar = () => {
               Eye Care
             </Typography>
             <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <NavLink to="/" style={{marginLeft:'17px'}}>Home</NavLink>
-              <NavLink to="/" style={{marginLeft:'25px'}}>Explore</NavLink>
-              <NavLink to="/" style={{marginLeft:'17px'}}>Login</NavLink>
+            <Box
+              sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
+            >
+              <NavLink to="/" style={{ marginLeft: "17px" }}>
+                Home
+              </NavLink>
+              <NavLink to="/" style={{ marginLeft: "25px" }}>
+                Explore
+              </NavLink>
+              {user ? (
+                <Box sx={{ display: "flex", gap: 3, alignItems: "center" }}>
+                  <PrimaryButton sx={{ mx: 2, ms: 2 }}>
+                    <NavLink to="/dashboard" style={{ color: "#fff" }}>
+                      DashBoard
+                    </NavLink>
+                  </PrimaryButton>
+                  <Typography variant="body1" color="#222">
+                    {user.displayName}
+                  </Typography>
+                  <PrimaryButton sx={{ mx: 3 }} onClick={LogOut}>
+                    Logout
+                  </PrimaryButton>
+                </Box>
+              ) : (
+                <NavLink to="/login">
+                  <PrimaryButton sx={{ mx: 3 }}>Login</PrimaryButton>
+                </NavLink>
+              )}
             </Box>
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
