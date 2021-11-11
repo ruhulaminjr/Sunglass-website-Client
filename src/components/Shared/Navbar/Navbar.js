@@ -57,7 +57,7 @@ const Navbar = () => {
         <NavLink to="/">Home</NavLink>
       </MenuItem>
       <MenuItem>
-        <NavLink to="/">Explore</NavLink>
+        <NavLink to="/explore">Explore</NavLink>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         {user ? (
@@ -93,7 +93,7 @@ const Navbar = () => {
               <NavLink to="/" style={{ marginLeft: "17px" }}>
                 Home
               </NavLink>
-              <NavLink to="/" style={{ marginLeft: "25px" }}>
+              <NavLink to="/explore" style={{ marginLeft: "25px" }}>
                 Explore
               </NavLink>
               {user ? (

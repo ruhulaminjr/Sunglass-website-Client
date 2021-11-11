@@ -5,6 +5,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../../../hooks/useAuth";
+import useGetProducts from "../../../../../hooks/usegetProducts";
 import PrimaryButton from "../../../../StyledComponents/PrimaryButton/PrimaryButton";
 import CircularProgressWithLabel from "./ProgressCircle";
 
@@ -86,7 +87,7 @@ const AddaProducts = () => {
 
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Button variant="outlined" component="label">
-              Add Picture
+             Upload Image
               <input type="file" hidden required {...register("img")} />
             </Button>
             {progress && <CircularProgressWithLabel value={progress} />}

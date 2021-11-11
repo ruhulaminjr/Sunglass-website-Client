@@ -14,6 +14,7 @@ import MakeAdmin from "../Admin/MakeAdmin/MakeAdmin";
 import AdminRoute from "../../../PrivateRoute/AdminRoute";
 import AddaProducts from "../Admin/AddAProducts/AddaProducts";
 import useAuth from "../../../../hooks/useAuth";
+import ManageProducts from "../Admin/ManageProducts/ManageProducts";
 
 const drawerWidth = 240;
 
@@ -53,7 +54,7 @@ function DashBoardHome(props) {
           </Button>
           <Button variant="outlined" sx={{ my: 1 }}>
             <CreditCardIcon sx={{ mx: 1 }} />
-            <NavLink to={`${url}/addproducts`}>Manage Products</NavLink>
+            <NavLink to={`${url}/manageproducts`}>Manage Products</NavLink>
           </Button>
           <Button variant="outlined" sx={{ my: 1 }} onClick={LogOut}>
             <ExitToAppIcon sx={{ mx: 1 }} />
@@ -151,6 +152,9 @@ function DashBoardHome(props) {
           </AdminRoute>
           <AdminRoute path={`${path}/addproducts`}>
             <AddaProducts />
+          </AdminRoute>
+          <AdminRoute path={`${path}/manageproducts`}>
+            <ManageProducts/>
           </AdminRoute>
         </Switch>
       </Box>
