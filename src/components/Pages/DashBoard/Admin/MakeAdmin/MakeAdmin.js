@@ -2,35 +2,36 @@ import { Alert, Paper, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import useAuth from "../../../../../hooks/useAuth";
 import PrimaryButton from "../../../../StyledComponents/PrimaryButton/PrimaryButton";
 
 const MakeAdmin = () => {
-  const [adminEmail, setAdminEmail] = useState("");
-  const [success, setSuccess] = useState(false);
-  const handleinputBlur = (e) => {
-    setAdminEmail(e.target.value);
-    console.log(e.target.value);
-  };
-  const makeAdminHandler = (e) => {
-    e.preventDefault();
+    const [success, setSuccess] = useState(false);
+    const { token } = useAuth();
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
     axios
       .put(
         "http://localhost:5000/makeadmin",
-        { email: adminEmail },
+        { email: data.Email },
         {
           headers: {
-            authorization: `Bearer ${localStorage.getItem("idToken")}`,
+            authorization: `Bearer ${token}`,
           },
         }
       )
       .then((result) => {
-        if (result.data.acknowledged) {
+        if (result.data.modifiedCount> 0) {
           setSuccess(true);
         } else {
           setSuccess(false);
         }
       });
   };
+
+
   return (
     <Box
       sx={{
@@ -44,13 +45,8 @@ const MakeAdmin = () => {
         <Typography variant="h6" sx={{ textAlign: "center", my: 2 }}>
           Make a User Admin
         </Typography>
-        <form onSubmit={makeAdminHandler}>
-          <TextField
-            fullWidth
-            label="Email"
-            onBlur={handleinputBlur}
-            required
-          />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextField fullWidth label="Email" {...register("Email")} required />
           <PrimaryButton sx={{ my: 2 }} type="submit">
             Make Admin
           </PrimaryButton>

@@ -11,12 +11,16 @@ import ReviewsIcon from "@mui/icons-material/Reviews";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { NavLink, Switch, Route, useRouteMatch } from "react-router-dom";
 import MakeAdmin from "../Admin/MakeAdmin/MakeAdmin";
+import AdminRoute from "../../../PrivateRoute/AdminRoute";
+import AddaProducts from "../Admin/AddAProducts/AddaProducts";
+import useAuth from "../../../../hooks/useAuth";
 
 const drawerWidth = 240;
 
 function DashBoardHome(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { admin, user, LogOut } = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -33,28 +37,52 @@ function DashBoardHome(props) {
         marginTop: "50px",
       }}
     >
-      <Button variant="outlined" sx={{ my: 1 }}>
-        <CreditCardIcon sx={{ mx: 1 }} />
-        <NavLink to="/">Pay</NavLink>
-      </Button>
-      <Button variant="outlined" sx={{ my: 1 }}>
-        <ReviewsIcon sx={{ mx: 1 }} />
-        <NavLink to="/">Review</NavLink>
-      </Button>
-      <Button variant="outlined" sx={{ my: 1 }}>
-        <ShoppingCartIcon sx={{ mx: 1 }} />
-        <NavLink to="/">My Orders</NavLink>
-      </Button>
+      {admin && (
+        <>
+          <Button variant="outlined" sx={{ my: 1 }}>
+            <CreditCardIcon sx={{ mx: 1 }} />
+            <NavLink to={`${url}/makeadmin`}>Make Admin</NavLink>
+          </Button>
+          <Button variant="outlined" sx={{ my: 1 }}>
+            <CreditCardIcon sx={{ mx: 1 }} />
+            <NavLink to={`${url}/addproducts`}>Add Products</NavLink>
+          </Button>
+          <Button variant="outlined" sx={{ my: 1 }}>
+            <CreditCardIcon sx={{ mx: 1 }} />
+            <NavLink to={`${url}/manageorders`}>Manage Orders</NavLink>
+          </Button>
+          <Button variant="outlined" sx={{ my: 1 }}>
+            <CreditCardIcon sx={{ mx: 1 }} />
+            <NavLink to={`${url}/addproducts`}>Manage Products</NavLink>
+          </Button>
+          <Button variant="outlined" sx={{ my: 1 }} onClick={LogOut}>
+            <ExitToAppIcon sx={{ mx: 1 }} />
+            LogOut
+          </Button>
+        </>
+      )}
+      {!admin && user && (
+        <>
+          <Button variant="outlined" sx={{ my: 1 }}>
+            <CreditCardIcon sx={{ mx: 1 }} />
+            <NavLink to="/">Pay</NavLink>
+          </Button>
+          <Button variant="outlined" sx={{ my: 1 }}>
+            <ReviewsIcon sx={{ mx: 1 }} />
+            <NavLink to="/">Review</NavLink>
+          </Button>
+          <Button variant="outlined" sx={{ my: 1 }}>
+            <ShoppingCartIcon sx={{ mx: 1 }} />
+            <NavLink to="/">My Orders</NavLink>
+          </Button>
+          <Button variant="outlined" sx={{ my: 1 }} onClick={LogOut}>
+            <ExitToAppIcon sx={{ mx: 1 }} />
+            LogOut
+          </Button>
+        </>
+      )}
 
-      <Button variant="outlined" sx={{ my: 1 }}>
-        <ExitToAppIcon sx={{ mx: 1 }} />
-        LogOut
-      </Button>
       {/* admin route  */}
-      <Button variant="outlined" sx={{ my: 1 }}>
-        <CreditCardIcon sx={{ mx: 1 }} />
-        <NavLink to={`${url}/makeadmin`}>Make Admin</NavLink>
-      </Button>
     </div>
   );
 
@@ -118,9 +146,12 @@ function DashBoardHome(props) {
         }}
       >
         <Switch>
-          <Route path={`${path}/makeadmin`}>
+          <AdminRoute path={`${path}/makeadmin`}>
             <MakeAdmin />
-          </Route>
+          </AdminRoute>
+          <AdminRoute path={`${path}/addproducts`}>
+            <AddaProducts />
+          </AdminRoute>
         </Switch>
       </Box>
     </Box>

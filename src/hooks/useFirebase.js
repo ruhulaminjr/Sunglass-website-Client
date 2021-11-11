@@ -9,6 +9,12 @@ import {
   getIdToken,
   updateProfile,
 } from "firebase/auth";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 import axios from "axios";
 
 FirebaseInit();
@@ -17,24 +23,15 @@ const useFirebase = () => {
   const [authError, setAuthError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [admin, setAdmin] = useState(false);
+  const [token, setToken] = useState("");
   const auth = getAuth();
+  const storage = getStorage();
   const registerUser = (email, password, name, history, url) => {
     setLoading(true);
     setUser({ email: email, displayName: name });
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
-        axios.post(
-          "http://localhost:5000/adduser",
-          {
-            email,
-            displayName: name,
-          },
-          {
-            headers: {
-              authorization: `Bearer ${localStorage.getItem("idToken")}`,
-            },
-          }
-        );
+        saveUserToDb(email, name);
         setAuthError(null);
         // update user porfile with name
         updateProfile(auth.currentUser, {
@@ -69,12 +66,22 @@ const useFirebase = () => {
       setUser(null);
     });
   };
+  const saveUserToDb = (email, displayName) => {
+    const newuser = { email, displayName };
+    fetch("http://localhost:5000/adduser", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newuser),
+    });
+  };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
         getIdToken(currentUser).then((idToken) => {
-          localStorage.setItem("idToken", idToken);
+          setToken(idToken);
         });
       } else {
         setUser(null);
@@ -82,20 +89,28 @@ const useFirebase = () => {
       setLoading(false);
     });
     return () => unsubscribe;
-  });
+  }, []);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/checkadmin/", {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("idToken")}`,
-        },
-      })
+      .get(`http://localhost:5000/getAdmin/${user?.email}`)
       .then((result) => {
         setAdmin(result.data.admin);
-        console.log(admin);
       });
-  }, [user]);
-  return { registerUser, LogOut, LoginUser, user, authError, loading };
+  }, [user, admin]);
+  return {
+    registerUser,
+    LogOut,
+    LoginUser,
+    user,
+    authError,
+    admin,
+    token,
+    loading,
+    storage,
+    ref,
+    uploadBytesResumable,
+    getDownloadURL,
+  };
 };
 
 export default useFirebase;

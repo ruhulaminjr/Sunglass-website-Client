@@ -9,29 +9,21 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import PrimaryButton from "../../StyledComponents/PrimaryButton/PrimaryButton";
 
 const Register = () => {
   const [islogin, setIslogin] = useState(true);
-  const [userdata, setUserData] = useState({});
   const history = useHistory();
   const { LoginUser, registerUser, authError } = useAuth();
-  const inputOnBlurHandler = (e) => {
-    const inputFiled = e.target.name;
-    const inputValue = e.target.value;
-    const newUserdata = { ...userdata };
-    newUserdata[inputFiled] = inputValue;
-    setUserData(newUserdata);
-  };
-  const formSubmitHandler = (e) => {
-    e.preventDefault();
-    const { name, email, password } = userdata;
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => {
     if (islogin) {
-      LoginUser(email, password, history, "/");
+      LoginUser(data.email, data.password, history, "/");
     } else {
-      registerUser(email, password, name, history, "/");
+      registerUser(data.email, data.password,data.name, history, "/");
     }
   };
   return (
@@ -68,7 +60,7 @@ const Register = () => {
           )}
           <Grid container sx={{ alignItems: "center" }}>
             <Grid item xs={12} lg={6}>
-              <form style={{ width: "100%" }} onSubmit={formSubmitHandler}>
+              <form style={{ width: "100%" }} onSubmit={handleSubmit(onSubmit)}>
                 {!islogin && (
                   <TextField
                     label="Your Name"
@@ -76,7 +68,7 @@ const Register = () => {
                     name="name"
                     type="text"
                     sx={{ width: "100%", mb: 2 }}
-                    onBlur={inputOnBlurHandler}
+                    {...register("name")}
                     required
                   />
                 )}
@@ -85,7 +77,7 @@ const Register = () => {
                   variant="outlined"
                   name="email"
                   type="email"
-                  onBlur={inputOnBlurHandler}
+                  {...register("email")}
                   sx={{ width: "100%" }}
                   required
                 />
@@ -94,7 +86,7 @@ const Register = () => {
                   variant="outlined"
                   name="password"
                   type="password"
-                  onBlur={inputOnBlurHandler}
+                  {...register("password")}
                   sx={{ width: "100%", my: 2 }}
                   required
                 />
