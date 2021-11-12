@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import useGetProducts from "../../../../../hooks/usegetProducts";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import axios from "axios";
 import useAuth from "../../../../../hooks/useAuth";
 
@@ -15,25 +15,32 @@ const ManageProducts = () => {
   const { products, setRerender, rerender } = useGetProducts();
   const { token } = useAuth();
   const productsDeleteHandler = (id) => {
-    axios
-      .delete(`http://localhost:5000/deleteproduct/${id}`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then((result) => {
-        if (result.data.deletedCount > 0) {
-          setRerender(!rerender);
-        }
-      });
+    const DeleteConfirm = window.confirm(
+      "Are You Sure Want To Delete The Item ?"
+    );
+    if (DeleteConfirm) {
+      axios
+        .delete(`http://localhost:5000/deleteproduct/${id}`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((result) => {
+          if (result.data.deletedCount > 0) {
+            setRerender(!rerender);
+          }
+        });
+    }
   };
   return (
     <TableContainer component={Paper} sx={{ mt: 8 }}>
+      <Typography variant="h6">
+        Manage All Products
+      </Typography>
       <Table sx={{}} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell align="right">Price</TableCell>
             <TableCell align="right">Action</TableCell>
           </TableRow>
         </TableHead>
@@ -46,7 +53,6 @@ const ManageProducts = () => {
               <TableCell component="th" scope="row">
                 {product.name}
               </TableCell>
-              <TableCell align="right">{product.price}</TableCell>
               <TableCell align="right">
                 <Button
                   variant="contained"

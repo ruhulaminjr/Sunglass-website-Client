@@ -15,15 +15,18 @@ const MyOrders = () => {
   const [render, setRerender] = useState(false);
   const [carts, setCarts] = useState([]);
   const cartItemDeleteHandler = (id) => {
-    axios
-      .get(`http://localhost:5000/cartdelete/${id}`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then((result) => {
-        setRerender(!render);
-      });
+    const DeleteConfirm = window.confirm("Are You Sure Delete This Item");
+    if (DeleteConfirm) {
+      axios
+        .get(`http://localhost:5000/cartdelete/${id}`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((result) => {
+          setRerender(!render);
+        });
+    }
   };
 
   useEffect(() => {

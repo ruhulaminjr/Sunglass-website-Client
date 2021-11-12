@@ -18,6 +18,7 @@ import ManageProducts from "../Admin/ManageProducts/ManageProducts";
 import MyOrders from "../MyOrders/MyOrders";
 import MyReview from "../MyReview/MyReview";
 import Pay from "../Pay/Pay";
+import MangeAllOrders from "../Admin/Manage All Orders/MangeAllOrders";
 
 const drawerWidth = 240;
 
@@ -93,7 +94,7 @@ function DashBoardHome(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: { lg: "flex", md: "flex" } }}>
       <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -158,6 +159,9 @@ function DashBoardHome(props) {
           </AdminRoute>
           <AdminRoute path={`${path}/manageproducts`}>
             <ManageProducts />
+          </AdminRoute>
+          <AdminRoute path={`${path}/manageorders`}>
+            <MangeAllOrders />
           </AdminRoute>
           <Route path={`${path}/payments`}>
             <Pay />
