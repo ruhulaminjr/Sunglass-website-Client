@@ -15,6 +15,9 @@ import AdminRoute from "../../../PrivateRoute/AdminRoute";
 import AddaProducts from "../Admin/AddAProducts/AddaProducts";
 import useAuth from "../../../../hooks/useAuth";
 import ManageProducts from "../Admin/ManageProducts/ManageProducts";
+import MyOrders from "../MyOrders/MyOrders";
+import MyReview from "../MyReview/MyReview";
+import Pay from "../Pay/Pay";
 
 const drawerWidth = 240;
 
@@ -66,15 +69,15 @@ function DashBoardHome(props) {
         <>
           <Button variant="outlined" sx={{ my: 1 }}>
             <CreditCardIcon sx={{ mx: 1 }} />
-            <NavLink to="/">Pay</NavLink>
+            <NavLink to={`${url}/payments`}>Pay</NavLink>
           </Button>
           <Button variant="outlined" sx={{ my: 1 }}>
             <ReviewsIcon sx={{ mx: 1 }} />
-            <NavLink to="/">Review</NavLink>
+            <NavLink to={`${url}/myreview`}>Review</NavLink>
           </Button>
           <Button variant="outlined" sx={{ my: 1 }}>
             <ShoppingCartIcon sx={{ mx: 1 }} />
-            <NavLink to="/">My Orders</NavLink>
+            <NavLink to={`${url}/myorders`}>My Orders</NavLink>
           </Button>
           <Button variant="outlined" sx={{ my: 1 }} onClick={LogOut}>
             <ExitToAppIcon sx={{ mx: 1 }} />
@@ -154,8 +157,17 @@ function DashBoardHome(props) {
             <AddaProducts />
           </AdminRoute>
           <AdminRoute path={`${path}/manageproducts`}>
-            <ManageProducts/>
+            <ManageProducts />
           </AdminRoute>
+          <Route path={`${path}/payments`}>
+            <Pay />
+          </Route>
+          <Route path={`${path}/myorders`}>
+            <MyOrders />
+          </Route>
+          <Route path={`${path}/myreview`}>
+            <MyReview />
+          </Route>
         </Switch>
       </Box>
     </Box>
