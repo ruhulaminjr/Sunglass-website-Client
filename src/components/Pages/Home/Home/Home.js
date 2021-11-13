@@ -3,6 +3,7 @@ import React from "react";
 import Footer from "../../../Shared/Footer/Footer";
 import Banner from "../Header/Banner/Banner";
 import Header from "../Header/Header";
+import PairSection from "../PairSection/PairSection";
 import Products from "../Products/allProducts/Products";
 import Reviews from "../Review/Reviews";
 
@@ -12,8 +13,9 @@ const Home = () => {
       <Header />
       <Banner />
       <Products />
-      <Reviews/>
-      <Footer/>
+      <Reviews />
+      <PairSection/>
+      <Footer />
     </Box>
   );
 };

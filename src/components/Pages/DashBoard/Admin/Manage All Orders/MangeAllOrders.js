@@ -24,17 +24,20 @@ const MangeAllOrders = () => {
       });
   };
   const cancelHandler = (id) => {
-    axios
-      .delete(`http://localhost:5000/deletecart/${id}`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-      .then((result) => {
-        if (result.data.deletedCount > 0) {
-          setRerender(!render);
-        }
-      });
+    const confirm = window.confirm("Are You Sure Want To Delete Your Order ?");
+    if (confirm) {
+      axios
+        .delete(`http://localhost:5000/deletecart/${id}`, {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        })
+        .then((result) => {
+          if (result.data.deletedCount > 0) {
+            setRerender(!render);
+          }
+        });
+    }
   };
   useEffect(() => {
     axios
