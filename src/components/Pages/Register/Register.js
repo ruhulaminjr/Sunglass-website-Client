@@ -10,20 +10,22 @@ import {
 import { Box } from "@mui/system";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router";
+import { useHistory,useLocation } from "react-router";
 import useAuth from "../../../hooks/useAuth";
 import PrimaryButton from "../../StyledComponents/PrimaryButton/PrimaryButton";
 
 const Register = () => {
   const [islogin, setIslogin] = useState(true);
   const history = useHistory();
+  const location = useLocation();
+  const redirectUrl = location?.state?.from || "/dashboard";
   const { LoginUser, registerUser, authError } = useAuth();
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     if (islogin) {
-      LoginUser(data.email, data.password, history, "/");
+      LoginUser(data.email, data.password, history, redirectUrl);
     } else {
-      registerUser(data.email, data.password,data.name, history, "/");
+      registerUser(data.email, data.password,data.name, history,redirectUrl);
     }
   };
   return (

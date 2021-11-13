@@ -1,5 +1,6 @@
 import { Box } from "@mui/system";
 import React from "react";
+import Footer from "../../../Shared/Footer/Footer";
 import Banner from "../Header/Banner/Banner";
 import Header from "../Header/Header";
 import Products from "../Products/allProducts/Products";
@@ -12,6 +13,7 @@ const Home = () => {
       <Banner />
       <Products />
       <Reviews/>
+      <Footer/>
     </Box>
   );
 };
