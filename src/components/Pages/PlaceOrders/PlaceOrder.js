@@ -12,7 +12,7 @@ const PlaceOrder = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const { user, token } = useAuth();
-  const url = `http://localhost:5000/getproduct/${id}`;
+  const url = `https://pacific-savannah-45002.herokuapp.com/getproduct/${id}`;
   const { register, handleSubmit } = useForm();
   const history = useHistory();
   const onSubmit = (data) => {
@@ -23,7 +23,7 @@ const PlaceOrder = () => {
       orderInfo: product,
     };
     axios
-      .post("http://localhost:5000/savecarts", newCart, {
+      .post("https://pacific-savannah-45002.herokuapp.com/savecarts", newCart, {
         headers: {
           authorization: `Bearer ${token}`,
         },

@@ -11,10 +11,9 @@ const MakeAdmin = () => {
     const { token } = useAuth();
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
     axios
       .put(
-        "http://localhost:5000/makeadmin",
+        "https://pacific-savannah-45002.herokuapp.com/makeadmin",
         { email: data.Email },
         {
           headers: {
@@ -23,7 +22,7 @@ const MakeAdmin = () => {
         }
       )
       .then((result) => {
-        if (result.data.modifiedCount> 0) {
+        if (result.data.modifiedCount > 0) {
           setSuccess(true);
         } else {
           setSuccess(false);

@@ -7,9 +7,11 @@ import Review from "./Review";
 const Reviews = () => {
   const [reviews, setReview] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:5000/review").then((result) => {
-      setReview(result.data);
-    });
+    axios
+      .get("https://pacific-savannah-45002.herokuapp.com/review")
+      .then((result) => {
+        setReview(result.data);
+      });
   }, []);
   return (
     <Box sx={{ my: 8 }}>
@@ -18,7 +20,7 @@ const Reviews = () => {
           What Our Customers Are Saying ?
         </Typography>
         <Grid container spacing={2}>
-          {reviews.slice(0, 3).map((review) => (
+          {reviews.map((review) => (
             <Grid item xs={12} lg={4} key={review._id}>
               <Review review={review} />
             </Grid>

@@ -20,11 +20,14 @@ const ManageProducts = () => {
     );
     if (DeleteConfirm) {
       axios
-        .delete(`http://localhost:5000/deleteproduct/${id}`, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
+        .delete(
+          `https://pacific-savannah-45002.herokuapp.com/deleteproduct/${id}`,
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((result) => {
           if (result.data.deletedCount > 0) {
             setRerender(!rerender);

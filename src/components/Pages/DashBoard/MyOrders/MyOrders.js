@@ -18,7 +18,7 @@ const MyOrders = () => {
     const DeleteConfirm = window.confirm("Are You Sure Delete This Item");
     if (DeleteConfirm) {
       axios
-        .get(`http://localhost:5000/cartdelete/${id}`, {
+        .get(`https://pacific-savannah-45002.herokuapp.com/cartdelete/${id}`, {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -31,11 +31,14 @@ const MyOrders = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/myorders/${user.email}`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `https://pacific-savannah-45002.herokuapp.com/myorders/${user.email}`,
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((result) => {
         setCarts(result.data);
         console.log(result.data);

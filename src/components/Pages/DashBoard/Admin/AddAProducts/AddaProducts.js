@@ -38,7 +38,10 @@ const AddaProducts = () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             data.img = downloadURL;
             axios
-              .post("http://localhost:5000/addproducts", data)
+              .post(
+                "https://pacific-savannah-45002.herokuapp.com/addproducts",
+                data
+              )
               .then((Result) => {
                 if (Result.data.acknowledged) {
                   reset();

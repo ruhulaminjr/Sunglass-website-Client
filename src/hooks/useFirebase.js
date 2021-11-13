@@ -68,7 +68,7 @@ const useFirebase = () => {
   };
   const saveUserToDb = (email, displayName) => {
     const newuser = { email, displayName };
-    fetch("http://localhost:5000/adduser", {
+    fetch("https://pacific-savannah-45002.herokuapp.com/adduser", {
       method: "POST",
       headers: {
         "content-type": "application/json",

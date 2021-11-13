@@ -12,7 +12,7 @@ const MangeAllOrders = () => {
   const [render, setRerender] = useState(false);
   const approveHandler = (id) => {
     axios
-      .get(`http://localhost:5000/approve/${id}`, {
+      .get(`https://pacific-savannah-45002.herokuapp.com/approve/${id}`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -27,11 +27,14 @@ const MangeAllOrders = () => {
     const confirm = window.confirm("Are You Sure Want To Delete Your Order ?");
     if (confirm) {
       axios
-        .delete(`http://localhost:5000/deletecart/${id}`, {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        })
+        .delete(
+          `https://pacific-savannah-45002.herokuapp.com/deletecart/${id}`,
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((result) => {
           if (result.data.deletedCount > 0) {
             setRerender(!render);
@@ -41,7 +44,7 @@ const MangeAllOrders = () => {
   };
   useEffect(() => {
     axios
-      .get("http://localhost:5000/getorders", {
+      .get("https://pacific-savannah-45002.herokuapp.com/getorders", {
         headers: {
           authorization: `Bearer ${token}`,
         },

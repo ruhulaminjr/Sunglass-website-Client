@@ -17,7 +17,7 @@ const MyReview = () => {
     data.displayName = user.displayName;
     data.email = user.email;
     axios
-      .post("http://localhost:5000/addreview", data, {
+      .post("https://pacific-savannah-45002.herokuapp.com/addreview", data, {
         headers: {
           authorization: `Bearer ${token}`,
         },
